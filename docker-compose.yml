@@ -24,6 +24,8 @@ services:
       - "3000:3000"
     depends_on:
       - server
+    volumes:
+      - ./client/config-overrides.js:/usr/src/app/config-overrides.js
 
 volumes:
   db_data:
