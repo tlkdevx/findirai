@@ -1,12 +1,11 @@
-import express from 'express';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import './index.css';
 
-const app = express();
-const port = process.env.PORT || 3000;
-
-app.get('/', (req, res) => {
-  res.send('Hello, Financial Platform!');
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);

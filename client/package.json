@@ -15,6 +15,9 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.8",
     "stream-http": "^3.2.0"
   }
