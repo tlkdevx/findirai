@@ -1,4 +1,7 @@
-node_modules
-dist
-.env
-.DS_Store
+services:
+  client:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
