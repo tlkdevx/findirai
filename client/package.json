@@ -19,6 +19,18 @@
     "@types/react-dom": "^19.0.4",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.1.8",
-    "stream-http": "^3.2.0"
+    "stream-http": "^3.2.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/cli": "^7.16.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ]
   }
 }

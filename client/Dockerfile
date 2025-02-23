@@ -1,22 +1,21 @@
 FROM node:14
 
+# Create app directory
 WORKDIR /usr/src/app
 
+# Install app dependencies
 COPY package*.json ./
+
 RUN npm install
 
+# Copy app source code
 COPY . .
 
-# Ensure the config-overrides.js file is copied to the root of the project
-COPY config-overrides.js ./config-overrides.js
-
-# List files in the directory to verify presence of config-overrides.js
-RUN ls -la /usr/src/app
-
+# Build the app using react-app-rewired
 RUN npm run build
 
-# List files again after the build step
-RUN ls -la /usr/src/app
-
+# Expose the port the app runs on
 EXPOSE 3000
+
+# Start the app
 CMD ["npm", "start"]
