@@ -27,6 +27,19 @@ npm install --save-dev @types/react @types/react-dom
 
 Pop-Location
 
+# Navigate into the server directory and install npm packages
+Write-Host "Installing npm packages in the server directory..."
+Push-Location server
+
+# Install regular dependencies
+npm install
+
+# Install multer package
+Write-Host "Installing multer package..."
+npm install multer
+
+Pop-Location
+
 # Bring down any running Docker containers (if they exist)
 Write-Host "Stopping current Docker containers..."
 docker-compose down -v
