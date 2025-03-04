@@ -1,29 +1,25 @@
 import { createContext } from 'react';
+import { AuthState } from './authTypes';
 
-interface AuthContextProps {
-  token: string | null;
-  isAuthenticated: boolean | null;
-  loading: boolean;
-  user: any;
-  error: any;
-  register: (formData: any) => void;
-  loadUser: () => void;
-  login: (formData: any) => void;
+interface AuthContextProps extends AuthState {
+  register: (formData: any) => Promise<void>;
+  loadUser: () => Promise<void>;
+  login: (formData: any) => Promise<void>;
   logout: () => void;
   clearErrors: () => void;
 }
 
-const authContext = createContext<AuthContextProps>({
+const AuthContext = createContext<AuthContextProps>({
   token: null,
   isAuthenticated: null,
   loading: true,
   user: null,
   error: null,
-  register: () => {},
-  loadUser: () => {},
-  login: () => {},
+  register: async () => {},
+  loadUser: async () => {},
+  login: async () => {},
   logout: () => {},
   clearErrors: () => {}
 });
 
-export default authContext;
+export default AuthContext;

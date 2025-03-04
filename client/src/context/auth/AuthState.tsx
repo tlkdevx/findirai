@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, ReactNode } from 'react';
 import axios from 'axios';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -14,7 +14,11 @@ import {
   CLEAR_ERRORS
 } from '../types';
 
-const AuthState: React.FC = ({ children }) => {
+interface AuthStateProps {
+  children: ReactNode;
+}
+
+const AuthState: React.FC<AuthStateProps> = ({ children }) => {
   const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,

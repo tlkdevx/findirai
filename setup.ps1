@@ -22,8 +22,8 @@ Push-Location client
 # Install regular dependencies
 npm install
 
-# Install type definitions for react and react-dom
-npm install --save-dev @types/react @types/react-dom
+# Install type definitions for react, react-dom, and react-router-dom
+npm install --save-dev @types/react @types/react-dom @types/react-router-dom
 
 Pop-Location
 
@@ -42,10 +42,20 @@ Pop-Location
 
 # Bring down any running Docker containers (if they exist)
 Write-Host "Stopping current Docker containers..."
-docker-compose down -v
+try {
+    docker-compose down -v
+} catch {
+    Write-Host "Failed to stop Docker containers. Please ensure Docker is running and try again." -ForegroundColor Red
+    exit 1
+}
 
 # Build and start Docker containers
 Write-Host "Building Docker containers..."
-docker-compose up --build
+try {
+    docker-compose up --build
+} catch {
+    Write-Host "Failed to build Docker containers. Please ensure Docker is running and try again." -ForegroundColor Red
+    exit 1
+}
 
 Write-Host "Project setup complete." -ForegroundColor Green
