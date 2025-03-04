@@ -59,7 +59,11 @@ const AuthState: React.FC<AuthStateProps> = ({ children }) => {
 
       loadUser();
     } catch (err) {
-      dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
+      if (axios.isAxiosError(err) && err.response) {
+        dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
+      } else {
+        dispatch({ type: REGISTER_FAIL, payload: 'An error occurred' });
+      }
     }
   };
 
@@ -78,7 +82,11 @@ const AuthState: React.FC<AuthStateProps> = ({ children }) => {
 
       loadUser();
     } catch (err) {
-      dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg });
+      if (axios.isAxiosError(err) && err.response) {
+        dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg });
+      } else {
+        dispatch({ type: LOGIN_FAIL, payload: 'An error occurred' });
+      }
     }
   };
 
