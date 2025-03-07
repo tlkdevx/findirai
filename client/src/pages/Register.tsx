@@ -13,8 +13,7 @@ const Register: React.FC = () => {
 
   const { name, email, password } = formData;
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

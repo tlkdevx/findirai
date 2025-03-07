@@ -27,8 +27,7 @@ const Login: React.FC = () => {
 
   const { email, password } = user;
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setUser({ ...user, [e.target.name]: e.target.value });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

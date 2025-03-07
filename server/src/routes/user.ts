@@ -49,7 +49,7 @@ router.post(
         }
       };
 
-      jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {
+      jwt.sign(payload, process.env.JWT_SECRET || 'defaultsecret', { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
@@ -96,7 +96,7 @@ router.post(
         }
       };
 
-      jwt.sign(payload, 'secret', { expiresIn: 3600 }, (err, token) => {
+      jwt.sign(payload, process.env.JWT_SECRET || 'defaultsecret', { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
