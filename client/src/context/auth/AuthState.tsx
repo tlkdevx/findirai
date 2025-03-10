@@ -45,7 +45,7 @@ const AuthState: React.FC<AuthStateProps> = ({ children }) => {
   };
 
   // Register User
-  const register = async (formData: any) => {
+  const register = async (formData: any): Promise<{ data: any }> => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -57,18 +57,22 @@ const AuthState: React.FC<AuthStateProps> = ({ children }) => {
 
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
 
-      loadUser();
+      await loadUser();
+      
+      return { data: res.data };
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         dispatch({ type: REGISTER_FAIL, payload: err.response.data.msg });
       } else {
         dispatch({ type: REGISTER_FAIL, payload: 'An error occurred' });
       }
+
+      throw err; // Re-throw the error to ensure the function returns a rejected Promise
     }
   };
 
   // Login User
-  const login = async (formData: any) => {
+  const login = async (formData: any): Promise<{ data: any }> => {
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -80,13 +84,17 @@ const AuthState: React.FC<AuthStateProps> = ({ children }) => {
 
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
 
-      loadUser();
+      await loadUser();
+      
+      return { data: res.data };
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         dispatch({ type: LOGIN_FAIL, payload: err.response.data.msg });
       } else {
         dispatch({ type: LOGIN_FAIL, payload: 'An error occurred' });
       }
+
+      throw err; // Re-throw the error to ensure the function returns a rejected Promise
     }
   };
 

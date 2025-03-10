@@ -37,11 +37,24 @@ const Login: React.FC = () => {
     }
     try {
       const res = await login({ email, password });
-      console.log(res.data);
+      if (res && res.data) {
+        console.log(res.data); // Token received from the server
+      } else {
+        console.error("Login response data is undefined");
+      }
     } catch (error: unknown) {
-      if (error instanceof Error && "response" in error) {
+      // Safely check for error.response.data using a type guard
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "response" in error
+      ) {
         const axiosError = error as AxiosError;
-        console.error(axiosError.response?.data);
+        if (axiosError.response) {
+          console.error(axiosError.response.data);
+        } else {
+          console.error("Axios error response undefined", error);
+        }
       } else {
         console.error(error);
       }

@@ -7,6 +7,12 @@ interface FormData {
   password: string;
 }
 
+interface AxiosError extends Error {
+  response?: {
+    data: any;
+  };
+}
+
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -23,8 +29,17 @@ const Register: React.FC = () => {
     try {
       const res = await axios.post('/api/users/register', formData);
       console.log(res.data); // Token received from the server
-    } catch (err) {
-      console.error(err.response.data);
+    } catch (err: unknown) {
+      if (typeof err === 'object' && err !== null && 'response' in err) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response) {
+          console.error(axiosError.response.data);
+        } else {
+          console.error("Axios error response undefined", err);
+        }
+      } else {
+        console.error(err);
+      }
     }
   };
 
