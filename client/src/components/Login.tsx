@@ -1,41 +1,86 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../context/auth/authContext";
 
-interface FormData {
-  email: string;
-  password: string;
+interface AxiosError extends Error {
+  response?: {
+    data: any;
+  };
 }
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    email: '',
-    password: '',
-  });
+  const { login, error, clearErrors, isAuthenticated } = useContext(AuthContext);
+  const history = useHistory();
 
-  const { email, password } = formData;
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/dashboard");
+    }
+    if (error) {
+      alert(error);
+      clearErrors();
+    }
+  }, [error, isAuthenticated, history]);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [user, setUser] = useState({ email: "", password: "" });
+  const { email, password } = user;
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!email || !password) {
+      alert("Please fill in all fields");
+      return;
+    }
     try {
-      const res = await axios.post('/api/auth/login', formData);
-      console.log(res.data); // Token received from the server
-    } catch (err) {
-      console.error(err.response.data);
+      const res = await login({ email, password });
+      console.log(res.data);
+    } catch (error: unknown) {
+      if (error instanceof Error && "response" in error) {
+        const axiosError = error as AxiosError;
+        console.error(axiosError.response?.data);
+      } else {
+        console.error(error);
+      }
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div>
-        <input type="email" name="email" value={email} onChange={onChange} required />
-      </div>
-      <div>
-        <input type="password" name="password" value={password} onChange={onChange} required />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <div className="form-container">
+      <h1>
+        Account <span className="text-primary">Login</span>
+      </h1>
+      <form onSubmit={onSubmit}>
+        <div className="form-group">
+          <label htmlFor="email">Email Address</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+          />
+        </div>
+        <input
+          type="submit"
+          value="Login"
+          className="btn btn-primary btn-block"
+        />
+      </form>
+    </div>
   );
 };
 

@@ -9,8 +9,7 @@ interface AxiosError extends Error {
 }
 
 const Login: React.FC = () => {
-  const authContext = useContext(AuthContext);
-  const { login, error, clearErrors, isAuthenticated } = authContext;
+  const { login, error, clearErrors, isAuthenticated } = useContext(AuthContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -21,44 +20,30 @@ const Login: React.FC = () => {
       alert(error);
       clearErrors();
     }
-    // eslint-disable-next-line
   }, [error, isAuthenticated, history]);
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [user, setUser] = useState({ email: "", password: "" });
   const { email, password } = user;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value,
-    });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (email === "" || password === "") {
+    if (!email || !password) {
       alert("Please fill in all fields");
       return;
     }
     try {
       const res = await login({ email, password });
-      console.log("Login successful:", res); // Log the response if needed
-    } catch (err: unknown) {
-      // Use a type guard to check if err has a response property
-      if (
-        typeof err === "object" &&
-        err !== null &&
-        "response" in err &&
-        (err as any).response?.data
-      ) {
-        const axiosError = err as AxiosError;
+      console.log(res.data);
+    } catch (error: unknown) {
+      if (error instanceof Error && "response" in error) {
+        const axiosError = error as AxiosError;
         console.error(axiosError.response?.data);
       } else {
-        console.error(err);
+        console.error(error);
       }
     }
   };
